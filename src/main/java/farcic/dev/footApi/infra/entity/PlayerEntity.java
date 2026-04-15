@@ -15,7 +15,7 @@ public class PlayerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_seq")
-    @SequenceGenerator(name = "player_seq", sequenceName = "player_seq")
+    @SequenceGenerator(name = "player_seq", sequenceName = "player_seq",allocationSize = 1)
     private Long id;
     private String name;
     @Enumerated(EnumType.STRING)
