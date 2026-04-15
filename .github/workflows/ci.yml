@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Chekout do codigo
-        uses: actions
+        uses: actions/checkout@v4
 
       - name: Configurar java 17
         uses: actions/chekout@v4
