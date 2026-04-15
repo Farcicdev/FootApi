@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Chekout do codigo
+      - name: Checkout do codigo
         uses: actions/checkout@v4
 
       - name: Configurar java 17
@@ -28,7 +28,7 @@ jobs:
         run: ./mvnw clean verify
 
       - name: gerar artifact do Jar
-        if: succes()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: foot-api-jar
