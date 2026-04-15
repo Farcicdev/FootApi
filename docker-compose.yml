@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: footApiPostgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgre
+      POSTGRES_DB: db_foot
+    ports:
+      - "5431:5432"
+    volumes:
+      - foot_api_postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  foot_api_postgres_data:
