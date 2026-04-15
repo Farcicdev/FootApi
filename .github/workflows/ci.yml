@@ -19,7 +19,7 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
-          cache: "maven"
+          cache: maven
 
       - name: permissao Maven wrapper
         run: chmod +x mvnw
