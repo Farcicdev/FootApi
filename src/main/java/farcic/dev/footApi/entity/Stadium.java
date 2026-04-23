@@ -1,4 +1,4 @@
-package farcic.dev.footApi.infra.entity;
+package farcic.dev.footApi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StadiumEntity {
+public class Stadium {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stadium_seq")
@@ -19,7 +19,7 @@ public class StadiumEntity {
     private String name;
     private String city;
     private Integer capacity;
+
     @Column(name = "url_img")
     private String urlImg;
-
 }

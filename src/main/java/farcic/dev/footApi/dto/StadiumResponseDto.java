@@ -1,10 +1,10 @@
-package farcic.dev.footApi.presentation.dto;
+package farcic.dev.footApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
 @Builder
-public record StadiumRespondeDto(
+public record StadiumResponseDto(
         Long id,
         String name,
         String city,

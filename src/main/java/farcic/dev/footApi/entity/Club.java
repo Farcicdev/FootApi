@@ -1,4 +1,4 @@
-package farcic.dev.footApi.infra.entity;
+package farcic.dev.footApi.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClubEntity {
+public class Club {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "club_seq")
@@ -24,18 +24,19 @@ public class ClubEntity {
     private Long id;
     private String name;
     private LocalDate founded;
+
     @Column(name = "url_img")
     private String urlImg;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    //Boolean como objeto porque a migration nao esta com NOT NULL
+
     private Boolean active;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stadium_id", unique = true)
-    private StadiumEntity stadium;
+    private Stadium stadium;
 
     @OneToMany(mappedBy = "club")
-    private List<PlayerEntity> player;
-
+    private List<Player> player;
 }
