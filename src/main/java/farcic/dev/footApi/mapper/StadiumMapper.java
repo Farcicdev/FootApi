@@ -26,4 +26,11 @@ public class StadiumMapper {
                 .urlImg(requestDto.urlImg())
                 .build();
     }
+
+    public void updateEntity(Stadium stadium, StadiumRequestDto requestDto) {
+        stadium.setName(requestDto.name());
+        stadium.setCity(requestDto.city());
+        stadium.setCapacity(requestDto.capacity());
+        stadium.setUrlImg(requestDto.urlImg());
+    }
 }
