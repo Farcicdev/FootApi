@@ -1,4 +1,4 @@
-package farcic.dev.footApi.dto;
+package farcic.dev.footApi.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -1,7 +1,7 @@
 package farcic.dev.footApi.mapper;
 
-import farcic.dev.footApi.dto.StadiumRequestDto;
-import farcic.dev.footApi.dto.StadiumResponseDto;
+import farcic.dev.footApi.dto.request.StadiumRequestDto;
+import farcic.dev.footApi.dto.response.StadiumResponseDto;
 import farcic.dev.footApi.entity.Stadium;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +27,4 @@ public class StadiumMapper {
                 .build();
     }
 
-    public void updateEntity(Stadium stadium, StadiumRequestDto requestDto) {
-        stadium.setName(requestDto.name());
-        stadium.setCity(requestDto.city());
-        stadium.setCapacity(requestDto.capacity());
-        stadium.setUrlImg(requestDto.urlImg());
-    }
 }

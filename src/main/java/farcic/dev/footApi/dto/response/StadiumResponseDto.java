@@ -1,4 +1,4 @@
-package farcic.dev.footApi.dto;
+package farcic.dev.footApi.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
