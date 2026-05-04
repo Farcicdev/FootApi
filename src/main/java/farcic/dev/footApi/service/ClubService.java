@@ -4,6 +4,7 @@ import farcic.dev.footApi.dto.request.ClubRequestDto;
 import farcic.dev.footApi.dto.response.ClubDetatilsResponse;
 import farcic.dev.footApi.dto.response.ClubResponseDto;
 import farcic.dev.footApi.entity.Club;
+import farcic.dev.footApi.exception.ConflictException;
 import farcic.dev.footApi.mapper.ClubMapper;
 import farcic.dev.footApi.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,11 @@ public class ClubService {
         }
         Club savedClub = clubRepository.save(club);
         return mapper.toDetailsResponseDto(savedClub);
+    }
+
+    public Club validarIdClub(Long id) {
+        return clubRepository.findById(id)
+                .orElseThrow(() -> new ConflictException("Club not found"));
     }
 
 }
