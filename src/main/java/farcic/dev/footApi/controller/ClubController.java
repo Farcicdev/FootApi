@@ -1,6 +1,7 @@
 package farcic.dev.footApi.controller;
 
 import farcic.dev.footApi.dto.request.ClubRequestDto;
+import farcic.dev.footApi.dto.response.ClubDetatilsResponse;
 import farcic.dev.footApi.dto.response.ClubResponseDto;
 import farcic.dev.footApi.service.ClubService;
 import jakarta.validation.Valid;
@@ -25,13 +26,13 @@ public class ClubController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ClubResponseDto findById(Long id) {
+    public ClubDetatilsResponse findById(Long id) {
         return service.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClubResponseDto createClub(@Valid @RequestBody ClubRequestDto request) {
+    public ClubDetatilsResponse createClub(@Valid @RequestBody ClubRequestDto request) {
         return service.save(request);
     }
 

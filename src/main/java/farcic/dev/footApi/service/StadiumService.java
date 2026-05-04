@@ -35,4 +35,10 @@ public class StadiumService {
             throw new ConflictException("Ja Existe um estadio com o nome: " + name);
         }
     }
+
+    //validacao de Id
+    public Stadium findById(Long id){
+        return stadiumRepository.findById(id)
+                .orElseThrow(() -> new ConflictException("Estadio não encontrado"));
+    }
 }
