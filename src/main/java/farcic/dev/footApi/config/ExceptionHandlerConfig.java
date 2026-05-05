@@ -1,4 +1,4 @@
-package farcic.dev.footApi.exceptionConfig;
+package farcic.dev.footApi.config;
 
 import farcic.dev.footApi.dto.response.ErrorResponseDto;
 import farcic.dev.footApi.exception.ConflictException;
