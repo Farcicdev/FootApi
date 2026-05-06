@@ -42,7 +42,7 @@ public class LoginService {
                 .expiresAt(Instant.now().plusSeconds(expirationTime))
                 .issuedAt(Instant.now())
                 .claim("email", savedUser.getEmail())
-                .claim("scopes", scopes)
+                .claim("scope", scopes)
                 .build();
         String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
