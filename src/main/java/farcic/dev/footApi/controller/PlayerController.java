@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,17 +26,19 @@ public class PlayerController {
     public Page<PlayerResponseDto> findAll(Pageable pageable) {
         return playerService.findall(pageable);
     }
+
     @CanReadPlayer
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PlayerResponseDetails findById(Long id) {
         return playerService.findById(id);
     }
+
     @CanWritePlayer
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PlayerResponseDetails save(@Valid @RequestBody PlayerRequestDto request) {
-    return playerService.save(request);
+        return playerService.save(request);
     }
 
 }
