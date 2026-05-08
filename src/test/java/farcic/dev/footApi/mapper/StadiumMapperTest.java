@@ -24,9 +24,18 @@ class StadiumMapperTest {
         StadiumResponseDto responseDto = mapper.toResponseDto(stadiumA);
         //Then
         Assertions.assertNotNull(responseDto);
+
+        Assertions.assertEquals(stadiumA.getId(), responseDto.id());
+        Assertions.assertEquals(stadiumA.getName(), responseDto.name());
+        Assertions.assertEquals(stadiumA.getCity(), responseDto.city());
+        Assertions.assertEquals(stadiumA.getCapacity(), responseDto.capacity());
+        Assertions.assertEquals(stadiumA.getUrlImg(), responseDto.urlImg());
     }
 
     @Test
     void toEntity() {
+
+
+
     }
 }

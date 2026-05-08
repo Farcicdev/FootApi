@@ -3,7 +3,6 @@ package farcic.dev.footApi.controller;
 import farcic.dev.footApi.dto.request.ClubRequestDto;
 import farcic.dev.footApi.dto.response.ClubDetatilsResponse;
 import farcic.dev.footApi.dto.response.ClubResponseDto;
-import farcic.dev.footApi.dto.response.PlayerResponseDetails;
 import farcic.dev.footApi.dto.response.PlayerResponseDto;
 import farcic.dev.footApi.service.ClubService;
 import farcic.dev.footApi.service.PlayerService;
@@ -45,6 +44,7 @@ public class ClubController {
     public ClubDetatilsResponse createClub(@Valid @RequestBody ClubRequestDto request) {
         return service.save(request);
     }
+
     @PreAuthorize("hasAnyAuthority('SCOPE_club:read', 'SCOPE_admin:all')")
     @GetMapping("/{id}/players")
     @ResponseStatus(HttpStatus.OK)
