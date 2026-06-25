@@ -2,6 +2,7 @@ package farcic.dev.footApi.service;
 
 import farcic.dev.footApi.dto.request.ClubRequestDto;
 import farcic.dev.footApi.dto.response.ClubDetatilsResponse;
+import farcic.dev.footApi.dto.response.ClubResponseDto;
 import farcic.dev.footApi.dto.response.StadiumResponseDto;
 import farcic.dev.footApi.entity.Club;
 import farcic.dev.footApi.entity.Stadium;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,6 +87,39 @@ class ClubServiceTest {
 
     @Test
     void findAll() {
+        //arrange
+        Club club = Club.builder()
+                .id(1L)
+                .name("Teste")
+                .founded(LocalDate.of(2020, 1, 1))
+                .urlImg("http://teste.com/img.png")
+                .stadium(Stadium.builder()
+                        .id(10L)
+                        .name("Teste Stadium")
+                        .city("Teste City")
+                        .capacity(50000)
+                        .build())
+                .build();
+
+        Club club2 = Club.builder()
+                .id(2L)
+                .name("Teste 2")
+                .founded(LocalDate.of(2021, 1, 1))
+                .urlImg("http://teste.com/img2.png")
+                .stadium(Stadium.builder()
+                        .id(11L)
+                        .name("Teste Stadium 2")
+                        .city("Teste City 2")
+                        .capacity(60000)
+                        .build())
+                .build();
+
+        List<Club> clubs = List.of(club, club2);
+
+        List<ClubResponseDto> responseDtos = List.of(
+                new ClubResponseDto(1L, "Teste", LocalDate.of(2020, 1, 1), "http://teste.com/img.png"),
+                new ClubResponseDto(2L, "Teste 2", LocalDate.of(2021, 1, 1), "http://teste.com/img2.png")
+        );
 
     }
 

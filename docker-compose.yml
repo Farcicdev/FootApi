@@ -10,7 +10,7 @@ services:
       - "5431:5432"
     volumes:
       - foot_api_postgres_data:/var/lib/postgresql/data
-    restart: always
+    restart: no
 
 volumes:
   foot_api_postgres_data:
