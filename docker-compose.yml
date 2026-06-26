@@ -1,16 +1,32 @@
 services:
   postgres:
     image: postgres:16
-    container_name: footApiPostgres
+    container_name: foot-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgre
       POSTGRES_DB: db_foot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5431:5432"
     volumes:
-      - foot_api_postgres_data:/var/lib/postgresql/data
-    restart: no
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: foot-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - /home/umbrel/keys:/keys:ro
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_foot
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_PRIVATE_KEY: /keys/authz.pem
+      JWT_PUBLIC_KEY: /keys/authz.pub
+    restart: unless-stopped
 
 volumes:
-  foot_api_postgres_data:
+  postgres_data:

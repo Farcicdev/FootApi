@@ -22,9 +22,9 @@ spring:
 
 jwt:
   private:
-    key: /home/augusto/keys/authz.pem
+    key: /keys/authz.pem
   public:
-    key: /home/augusto/keys/authz.pub
+    key: /keys/authz.pub
 
 server:
-  port: 8080
+  port: 8084
