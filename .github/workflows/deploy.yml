@@ -19,6 +19,11 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
 
+      - name: Test Tailscale
+        run: |
+          tailscale status
+          ping -c 3 ${{ secrets.UMBREL_HOST }} || true
+
       - name : Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
