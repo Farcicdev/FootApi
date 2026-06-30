@@ -6,6 +6,7 @@ import farcic.dev.footApi.dto.response.ClubResponseDto;
 import farcic.dev.footApi.dto.response.StadiumResponseDto;
 import farcic.dev.footApi.entity.Club;
 import farcic.dev.footApi.entity.Stadium;
+import farcic.dev.footApi.exception.ConflictException;
 import farcic.dev.footApi.mapper.ClubMapper;
 import farcic.dev.footApi.repository.ClubRepository;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClubServiceTest {
@@ -34,27 +37,24 @@ class ClubServiceTest {
     StadiumService stadiumService;
 
     @Test
-    void save() {
+    void saveSucess() {
         //Arrenge
-        ClubRequestDto request = ClubRequestDto.builder()
-                .name("Teste")
-                .founded(LocalDate.of(2020, 1, 1))
-                .urlImg("http://teste.com/img.png")
-                .stadiumId(10L)
+        Stadium stadiumref = Stadium.builder()
+                .id(10L)
                 .build();
-        Club teste = Club.builder()
+
+        ClubRequestDto clubRequestDto = new ClubRequestDto(
+                "Teste",
+                LocalDate.of(2020, 1, 1),
+                "http://teste.com/img.png",
+                10L
+        );
+        Club club = Club.builder()
                 .id(1L)
                 .name("Teste")
                 .founded(LocalDate.of(2020, 1, 1))
                 .urlImg("http://teste.com/img.png")
-                .stadium(Stadium.builder().id(10L).build())
-                .build();
-
-        Stadium stadium = Stadium.builder()
-                .id(10L)
-                .name("Teste Stadium")
-                .city("Teste City")
-                .capacity(50000)
+                .stadium(stadiumref)
                 .build();
 
         ClubDetatilsResponse response = new ClubDetatilsResponse(
@@ -70,19 +70,32 @@ class ClubServiceTest {
                         .build()
         );
 
-        Mockito.when(mapper.toEntity(request)).thenReturn(teste);
-        Mockito.when(stadiumService.findById(stadium.getId())).thenReturn(stadium);
-        Mockito.when(clubRepository.save(teste)).thenReturn(teste);
-        Mockito.when(mapper.toDetailsResponseDto(teste)).thenReturn(response);
+        Stadium stadium = Stadium.builder()
+                .id(10L)
+                .name("Teste Stadium")
+                .city("Teste City")
+                .capacity(50000)
+                .build();
+
+        Mockito.when(mapper.toEntity(clubRequestDto)).thenReturn(club);
+        Mockito.when(stadiumService.findById(10L)).thenReturn(stadium);
+        Mockito.when(clubRepository.save(club)).thenReturn(club);
+        Mockito.when(mapper.toDetailsResponseDto(club)).thenReturn(response);
+
         //Action
-        ClubDetatilsResponse execute = service.save(request);
+        ClubDetatilsResponse result = service.save(clubRequestDto);
 
         //Assert
-        Assertions.assertEquals(response, execute);
-        Assertions.assertEquals(stadium, teste.getStadium());
-        Mockito.verify(stadiumService).findById(10L);
-        Mockito.verify(clubRepository).save(teste);
+        assertEquals(response, result);
+        assertEquals(response, result);
+        assertEquals(1L, result.id());
+        assertEquals("Teste", result.name());
+        assertEquals(10L, result.stadium().id());
 
+        Mockito.verify(mapper).toEntity(clubRequestDto);
+        Mockito.verify(stadiumService).findById(10L);
+        Mockito.verify(clubRepository).save(club);
+        Mockito.verify(mapper).toDetailsResponseDto(club);
     }
 
     @Test
@@ -159,12 +172,58 @@ class ClubServiceTest {
         ClubDetatilsResponse execute = service.findById(1L);
 
         //Assert
-        Assertions.assertEquals(response, execute);
+        assertEquals(response, execute);
         Mockito.verify(clubRepository).findById(1L);
         Mockito.verify(mapper).toDetailsResponseDto(club);
     }
 
     @Test
-    void validarIdClub() {
+    void validarIdClubError() {
+        Club club = Club.builder()
+                .id(1L)
+                .name("Teste")
+                .founded(LocalDate.of(2020, 1, 1))
+                .urlImg("http://teste.com/img.png")
+                .stadium(Stadium.builder()
+                        .id(10L)
+                        .name("Teste Stadium")
+                        .city("Teste City")
+                        .capacity(50000)
+                        .build())
+                .build();
+        Long id = 2L;
+
+        Mockito.when(clubRepository.findById(id)).thenReturn(Optional.empty());
+
+        ConflictException conflictException = assertThrows(ConflictException.class, () -> {
+            service.validarIdClub(id);
+        });
+
+        assertEquals("Club not found", conflictException.getMessage());
+
+    }
+
+    @Test
+    void validarIdClubSucess() {
+        Club club = Club.builder()
+                .id(1L)
+                .name("Teste")
+                .founded(LocalDate.of(2020, 1, 1))
+                .urlImg("http://teste.com/img.png")
+                .stadium(Stadium.builder()
+                        .id(10L)
+                        .name("Teste Stadium")
+                        .city("Teste City")
+                        .capacity(50000)
+                        .build())
+                .build();
+        Long id = 1L;
+
+        Mockito.when(clubRepository.findById(id)).thenReturn(Optional.of(club));
+
+        Club result = service.validarIdClub(id);
+
+        assertEquals(club, result);
+
     }
 }
