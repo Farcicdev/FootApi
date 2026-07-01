@@ -6,9 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 class StadiumControllerTest extends BaseIntegrationTest {
@@ -27,8 +27,14 @@ class StadiumControllerTest extends BaseIntegrationTest {
                 .urlImg("http://test.com/img.png")
                 .build();
 
-        mockMvc.perform(post("/stadium")
+        mockMvc.perform(post("/stadiums")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)));
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(requestDto.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.city").value(requestDto.city()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.capacity").value(requestDto.capacity()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.urlImg").value(requestDto.urlImg()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty());
     }
 }
